@@ -1,7 +1,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-app-xlnetacc
-PKG_VERSION:=1.0.9
+PKG_VERSION:=1
 PKG_RELEASE:=1
 
 PKG_LICENSE:=GPLv2
@@ -33,14 +33,6 @@ endef
 define Build/Compile
 endef
 
-define Package/$(PKG_NAME)/postinst
-#!/bin/sh
-if [ -z "$${IPKG_INSTROOT}" ]; then
-	( . /etc/uci-defaults/luci-xlnetacc ) && rm -f /etc/uci-defaults/luci-xlnetacc
-fi
-exit 0
-endef
-
 define Package/$(PKG_NAME)/conffiles
 	/etc/config/xlnetacc
 endef
@@ -61,7 +53,7 @@ define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/etc/hotplug.d/iface
 	$(INSTALL_BIN) ./files/root/etc/hotplug.d/iface/95-xlnetacc $(1)/etc/hotplug.d/iface/95-xlnetacc
 	$(INSTALL_DIR) $(1)/etc/uci-defaults
-	$(INSTALL_BIN) ./files/root/etc/uci-defaults/luci-xlnetacc $(1)/etc/uci-defaults/luci-xlnetacc
+	$(INSTALL_BIN) ./files/root/etc/uci-defaults/* $(1)/etc/uci-defaults/
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) ./files/root/usr/bin/xlnetacc.sh $(1)/usr/bin/xlnetacc.sh
 	$(INSTALL_DIR) $(1)/usr/share/rpcd/acl.d
